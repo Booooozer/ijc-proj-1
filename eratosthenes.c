@@ -10,7 +10,7 @@ void Eratosthenes(bitset_t pole) {
     bitset_setbit(pole,1,1);
 
     // loop from 2 to sqrt(N)
-    for (unsigned long i = 2; i < sqrtl(bitset_size(pole)); ++i) {
+    for (unsigned long i = 2; i < sqrtl(bitset_size(pole)); i++) {
         if (bitset_getbit(pole,i) == 0) {
             // mark all multiples of i nonprime
             for (unsigned long j = i*i; j < bitset_size(pole); j += i) {

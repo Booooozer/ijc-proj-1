@@ -1,8 +1,26 @@
 CC = gcc
-CFLAGS = -g -std=c11 -pedantic -Wall -Wextra -O0 -m32
+CFLAGS = -g -std=c11 -pedantic -Wall -Wextra -O0
 
-tom:
-	$(CC) $(CFLAGS) main.c -o main
 
-tom-i:
-	$(CC) $(CFLAGS) -DUSE_INLINE main.c -o main
+primes: primes.o eratosthenes.o
+	$(CC) $(CFLAGS) primes.o eratosthenes.o -o primes -lm
+
+primes-i: primes-i.o eratosthenes.o
+	$(CC) $(CFLAGS) -DUSE_INLINE primes-i.o eratosthenes.o -o primes-i -lm
+
+
+
+
+
+eratosthenes.o: eratosthenes.c
+	$(CC) $(CFLAFS) -c eratosthenes.c
+
+primes.o: primes.c eratosthenes.c
+	$(CC) $(CFLAGS) -c primes.c
+
+primes-i.o: primes.c eratosthenes.c
+	$(CC) $(CFLAGS) -c primes.c -DUSE_INLINE
+
+
+clean:
+	rm *.o primes primes-i
