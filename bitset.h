@@ -59,17 +59,17 @@ typedef unsigned long bitset_index_t;
 
 // inline functions
 
-    static inline unsigned long bitset_size(bitset_t jmeno_pole) {
+    inline unsigned long bitset_size(bitset_t jmeno_pole) {
         return jmeno_pole[0];
     }
 
-    static inline void bitset_setbit(bitset_t jmeno_pole, unsigned long index, char vyraz) {
+    inline void bitset_setbit(bitset_t jmeno_pole, unsigned long index, char vyraz) {
         (vyraz == 1) ? (jmeno_pole[(index / UL_SIZE) + 1] |= (1UL << ((index) % UL_SIZE))) : \
         (jmeno_pole[(index / UL_SIZE) + 1] &= ~(1UL << ((index) % UL_SIZE)));
         return;
     }
 
-    static inline unsigned long bitset_getbit(bitset_t jmeno_pole, unsigned long index) {
+    inline unsigned long bitset_getbit(bitset_t jmeno_pole, unsigned long index) {
         return (jmeno_pole[(index / UL_SIZE) + 1] & (1UL << ((index) % UL_SIZE)));
     }
 
