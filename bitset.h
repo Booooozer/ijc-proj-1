@@ -16,13 +16,15 @@ typedef unsigned long bitset_index_t;
 
 // creates static array on stack
 #define bitset_create(jmeno_pole,velikost)_Static_assert(velikost > 0, "Velikost pole musi byt vetsi nez 0"); \
+        /* (how many ULs are needed) + (1 extra when the number of bits
+         * is not dividable by UL_SIZE) + 1 for array[0] where the size of bit array is saved */              \
         unsigned long jmeno_pole [((velikost / UL_SIZE) + ((velikost % UL_SIZE) ? 1 : 0) + 1)] = {velikost};
 
 // allocates array on heap
 #define bitset_alloc(jmeno_pole,velikost)                               \
         assert(velikost > 0);                                           \
-        unsigned long *jmeno_pole = calloc(((velikost / UL_SIZE) +       \
-        ((velikost % UL_SIZE) ? 1 : 0) + 1), sizeof(unsigned long));         \
+        unsigned long *jmeno_pole = calloc(((velikost / UL_SIZE) +      \
+        ((velikost % UL_SIZE) ? 1 : 0) + 1), sizeof(unsigned long));    \
         if(jmeno_pole == NULL) {                                        \
             fprintf(stderr, "bitset_alloc: Chyba alokace pameti");      \
             return 1;                                                   \
@@ -36,16 +38,26 @@ typedef unsigned long bitset_index_t;
 
 #ifndef USE_INLINE
 
+// macros
+
+// returns the size of bit array
 #define bitset_size(jmeno_pole)jmeno_pole[0]
 
-#define bitset_setbit(jmeno_pole,index,vyraz) (vyraz == 1) ? \
-        (jmeno_pole[(index / UL_SIZE) + 1] |= (1UL << ((index) % UL_SIZE))) : \
-        (jmeno_pole[(index / UL_SIZE) + 1] &= ~(1UL << ((index) % UL_SIZE)))
+// sets selected bit
+/* to set 1: (index where selected bit is + 1 as array[0] == size)
+ * then left shift 1 to selected bit and use bitwise OR
+ * to set 0: use bitwise AND to set selected bit to 0
+ */
+#define bitset_setbit(jmeno_pole,index,vyraz) (vyraz == 1) ?                    \
+        (jmeno_pole[(index / UL_SIZE) + 1] |= (1UL << ((index) % UL_SIZE))) :   \
+        (jmeno_pole[(index / UL_SIZE) + 1] &= (0UL << ((index) % UL_SIZE)))
 
 
 #define bitset_getbit(jmeno_pole,index) (jmeno_pole[(index / UL_SIZE) + 1] & (1UL << ((index) % UL_SIZE)))
 
 #else
+
+// inline functions
 
     static inline unsigned long bitset_size(bitset_t jmeno_pole) {
         return jmeno_pole[0];

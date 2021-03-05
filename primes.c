@@ -5,18 +5,20 @@
 #include "bitset.h"
 #include "eratosthenes.h"
 #include <stdio.h>
+#include <time.h>
 
-#define ARRAYSIZE 200000000
+#define ARRAY_SIZE 200000000
 
 int main() {
-    bitset_create(p,ARRAYSIZE)
+    clock_t start = clock();
 
+    bitset_create(p, ARRAY_SIZE)
     Eratosthenes(p);
 
     int toRead = 0;
     unsigned long primes[10];
 
-    for (unsigned long i = ARRAYSIZE - 1; toRead < 10; i--) {
+    for (bitset_index_t i = ARRAY_SIZE - 1; toRead < 10; i--) {
         if (bitset_getbit(p,i) == 0) {
             primes[toRead] = i;
             toRead++;
@@ -27,5 +29,6 @@ int main() {
         printf("%lu\n", primes[i]);
     }
 
+    fprintf(stderr, "Time=%.3g\n", (double)(clock() - start) / CLOCKS_PER_SEC);
     return 0;
 }
