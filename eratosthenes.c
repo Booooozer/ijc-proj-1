@@ -7,6 +7,7 @@
 void Eratosthenes(bitset_t pole) {
     // 0 and 1 is not prime
     bitset_setbit(pole,0,1);
+
     bitset_setbit(pole,1,1);
 
     // loop from 2 to sqrt(N)

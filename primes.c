@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#define ARRAY_SIZE 200000000
+#define ARRAY_SIZE 200000000    // 200 million
 
 int main() {
     clock_t start = clock();
