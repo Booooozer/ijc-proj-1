@@ -5,7 +5,7 @@ CFLAGS = -g -std=c11 -pedantic -Wall -Wextra -O2
 all: primes primes-i
 
 # Run everything
-run:
+run: primes primes-i
 	./primes
 	./primes-i
 
