@@ -2,8 +2,10 @@
 // Created by tom on 3/6/21.
 //
 
-#ifndef PROJ1_PPM_H
-#define PROJ1_PPM_H
+#ifndef PPM_H
+#define PPM_H
+
+#define IMG_MAX_SIZE 8000*8000*3
 
 struct ppm {
     unsigned xsize;
@@ -15,4 +17,4 @@ struct ppm * ppm_read(const char * filename);
 
 void ppm_free(struct ppm *p);
 
-#endif //PROJ1_PPM_H
+#endif //PPM_H
