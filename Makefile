@@ -43,10 +43,13 @@ primes: primes.o eratosthenes.o bitset.o error.o
 primes-i: primes-i.o eratosthenes-i.o bitset-i.o error.o
 	$(CC) $(CFLAGS) -lm -DUSE_INLINE primes-i.o eratosthenes-i.o bitset-i.o error.o -o primes-i
 
+steg-decode: ppm.o eratosthenes.o bitset.o error.o
+	$(CC) $(CFLAGS) -lm steg-decode.c ppm.o eratosthenes.o bitset.o error.o -o steg-decode
+
 
 
 zip:
 	zip xmatus37-proj1.zip *.h *.c Makefile
 
 clean:
-	rm *.o primes primes-i
+	rm *.o primes primes-i steg-decode vgcore*

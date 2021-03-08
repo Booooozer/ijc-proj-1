@@ -57,7 +57,6 @@ struct ppm * ppm_read(const char * filename) {
         warning_msg("Velikost obrazku %s neodpovida rozliseni\n", filename);
         return NULL;
     }
-    printf("x: %u y: %u\n", ppmImg->xsize, ppmImg->ysize);
 
     fclose(fp);
 
