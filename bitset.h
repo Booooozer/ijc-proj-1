@@ -23,7 +23,7 @@ typedef unsigned long bitset_index_t;
 #define bitset_create(jmeno_pole,velikost)_Static_assert(velikost > 0, "Velikost pole musi byt vetsi nez 0"); \
         /* (how many ULs are needed) + (1 extra when the number of bits
          * is not dividable by UL_SIZE) + 1 for array[0] where the size of bit array is saved */              \
-        unsigned long jmeno_pole [((velikost / UL_SIZE) + ((velikost % UL_SIZE) ? 1 : 0) + 1)] = {velikost};
+        unsigned long jmeno_pole [((velikost / UL_SIZE) + ((velikost % UL_SIZE) ? 1 : 0) + 1)] = {velikost,};
 
 // allocates array on heap
 #define bitset_alloc(jmeno_pole,velikost)                               \

@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -std=c11 -pedantic -Wall -Wextra -O2
+CFLAGS = -g -std=c11 -pedantic -Wall -Wextra -O0
 
 # Compile everything
 all: primes primes-i
@@ -10,19 +10,19 @@ run: primes primes-i
 	./primes-i
 
 # Binaries
-bitset.o: bitset.c
+bitset.o: bitset.c bitset.h
 	$(CC) $(CFLAGS) -c bitset.c -o bitset.o
 
-eratosthenes.o: eratosthenes.c
+eratosthenes.o: eratosthenes.c eratosthenes.h
 	$(CC) $(CFLAGS) -c eratosthenes.c -o eratosthenes.o
 
-primes.o: primes.c eratosthenes.c
+primes.o: primes.c
 	$(CC) $(CFLAGS) -c primes.c -o primes.o
 
-bitset-i.o: bitset.c
+bitset-i.o: bitset.c bitset.h
 	$(CC) $(CFLAGS) -DUSE_INLINE -c bitset.c -o bitset-i.o
 
-eratosthenes-i.o: eratosthenes.c
+eratosthenes-i.o: eratosthenes.c eratosthenes.h
 	$(CC) $(CFLAGS) -DUSE_INLINE -c eratosthenes.c -o eratosthenes-i.o
 
 primes-i.o: primes.c
@@ -43,7 +43,7 @@ primes: primes.o eratosthenes.o bitset.o error.o
 primes-i: primes-i.o eratosthenes-i.o bitset-i.o error.o
 	$(CC) $(CFLAGS) -lm -DUSE_INLINE primes-i.o eratosthenes-i.o bitset-i.o error.o -o primes-i
 
-steg-decode: ppm.o eratosthenes.o bitset.o error.o
+steg-decode: steg-decode.c ppm.o eratosthenes.o bitset.o error.o
 	$(CC) $(CFLAGS) -lm steg-decode.c ppm.o eratosthenes.o bitset.o error.o -o steg-decode
 
 
@@ -52,4 +52,4 @@ zip:
 	zip xmatus37-proj1.zip *.h *.c Makefile
 
 clean:
-	rm *.o primes primes-i steg-decode vgcore*
+	rm *.o primes primes-i steg-decode

@@ -25,27 +25,31 @@ int main(int argc, char **argv) {
     bitset_alloc(p,arrSize)
     Eratosthenes(p);
 
-    char msgByte[2] = {CHAR_BIT, 0};
+    unsigned char msgByte;
     int count = 0;
     for (unsigned i = 23; i < arrSize; i++) {
         // index is prime
         if (bitset_getbit(p,i) == 0) {
-            bitset_setbit(msgByte, count, bitset_getbit((&(img->data[i])),7));  // SEGFAULT HERE
+
+            //bitset_setbit(msgByte,count,(img->data[i] & 1));
+            msgByte |= ((img->data[i] & 1) << count);
             count++;
             // last bit in byte is filled
-            if (count > 7) {
+            if (count == CHAR_BIT) {
                 count = 0;
-                putchar(msgByte[0]);
-                if (msgByte[0] == '\0') {
-                    return 0;
+                putchar(msgByte);
+                if (msgByte == '\0') {
+                    putchar('\n');
+                    break;
                 }
+                msgByte = 0;
             }
         }
     }
 
 
 
-
+    ppm_free(img);
     bitset_free(p)
 
     return 0;

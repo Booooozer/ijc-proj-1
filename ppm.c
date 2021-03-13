@@ -16,19 +16,12 @@ struct ppm * ppm_read(const char * filename) {
         return NULL;
     }
 
-    char format[3];
     unsigned int xsize, ysize;
-    unsigned char maxColor;
 
     // scan header of ppm P6 image
-    if (fscanf(fp,"%s %u %u %c ", format, &xsize, &ysize, &maxColor) != 4) {
+    if (fscanf(fp,"P6 %u %u 255 ", &xsize, &ysize) != 2) {
         fclose(fp);
         warning_msg("Spatna hlavicka obrazku %s\n", filename);
-        return NULL;
-    }
-    if (strcmp(format, "P6") != 0) {
-        fclose(fp);
-        warning_msg("Spatny format obrazku %s\n", filename);
         return NULL;
     }
 
@@ -50,6 +43,9 @@ struct ppm * ppm_read(const char * filename) {
     ppmImg->xsize = xsize;
     ppmImg->ysize = ysize;
 
+    // clear whitespace after "255" in ppm header
+    //fgetc(fp);
+
     // read binary from file and check if real size matches calculated size
     if (fread(ppmImg->data, sizeof(char), imgSize, fp) != imgSize) {
         fclose(fp);
@@ -58,8 +54,15 @@ struct ppm * ppm_read(const char * filename) {
         return NULL;
     }
 
-    fclose(fp);
+    // check if everything was read
+    if (fgetc(fp) != EOF) {
+        fclose(fp);
+        ppm_free(ppmImg);
+        warning_msg("Chybne zakonceny soubor\n");
+        return NULL;
+    }
 
+    fclose(fp);
     return ppmImg;
 }
 

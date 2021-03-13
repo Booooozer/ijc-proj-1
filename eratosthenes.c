@@ -15,7 +15,7 @@ void Eratosthenes(bitset_t pole) {
     long double sqrtBitset = sqrt(sizeBitset);
     for (bitset_index_t i = 2; i < sqrtBitset; i++) {
         if (bitset_getbit(pole,i) == 0) {
-            // mark all multiples of i as nonprime
+            // mark all multiples of i as nonprime starting at i*i
             for (bitset_index_t j = i*i; j < sizeBitset; j += i) {
                 bitset_setbit(pole,j,1);
             }
