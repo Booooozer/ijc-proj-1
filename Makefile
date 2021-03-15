@@ -59,7 +59,7 @@ steg-decode: steg-decode.c ppm.o eratosthenes.o bitset.o error.o
 
 # Misc
 zip:
-	zip xmatus37-proj1.zip *.h *.c Makefile
+	zip xmatus37.zip *.h *.c Makefile
 
 clean:
 	rm *.o primes primes-i steg-decode
