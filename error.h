@@ -4,6 +4,7 @@
  * Autor: Tomáš Matuš, FIT
  * Login: xmatus37
  * Datum: 15.3.2021
+ * Přeloženo: gcc 10.2.0
  */
 
 #include <stdio.h>
