@@ -1,6 +1,10 @@
-//
-// Created by tom on 3/6/21.
-//
+/*
+ * ppm.c
+ * Řešení IJC-DU1
+ * Autor: Tomáš Matuš, FIT
+ * Login: xmatus37
+ * Datum: 15.3.2021
+ */
 
 #include "ppm.h"
 #include "error.h"
@@ -21,7 +25,7 @@ struct ppm * ppm_read(const char * filename) {
     // scan header of ppm P6 image
     if (fscanf(fp,"P6 %u %u 255 ", &xsize, &ysize) != 2) {
         fclose(fp);
-        warning_msg("Spatna hlavicka obrazku %s\n", filename);
+        warning_msg("Spatna hlavicka obrazku %s!\n", filename);
         return NULL;
     }
 
@@ -42,9 +46,6 @@ struct ppm * ppm_read(const char * filename) {
     }
     ppmImg->xsize = xsize;
     ppmImg->ysize = ysize;
-
-    // clear whitespace after "255" in ppm header
-    //fgetc(fp);
 
     // read binary from file and check if real size matches calculated size
     if (fread(ppmImg->data, sizeof(char), imgSize, fp) != imgSize) {

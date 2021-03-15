@@ -1,6 +1,10 @@
-//
-// Created by tom on 3/5/21.
-//
+/*
+ * error.c
+ * Řešení IJC-DU1
+ * Autor: Tomáš Matuš, FIT
+ * Login: xmatus37
+ * Datum: 15.3.2021
+ */
 
 #include "error.h"
 #include <stdio.h>

@@ -1,13 +1,24 @@
+###############################
+# Makefile
+# Řešení IJC-DU1
+# Autor: Tomáš Matuš, FIT
+# Login: xmatus37
+# Datum: 15.3.2021
+###############################
+
+
+# Compiler and flags
 CC = gcc
-CFLAGS = -g -std=c11 -pedantic -Wall -Wextra -O0
+CFLAGS = -g -std=c11 -pedantic -Wall -Wextra -O2
 
 # Compile everything
-all: primes primes-i
+all: primes primes-i steg-decode
 
-# Run everything
+# Compile and run primes
 run: primes primes-i
 	./primes
 	./primes-i
+
 
 # Binaries
 bitset.o: bitset.c bitset.h
@@ -28,12 +39,11 @@ eratosthenes-i.o: eratosthenes.c eratosthenes.h
 primes-i.o: primes.c
 	$(CC) $(CFLAGS) -DUSE_INLINE -c primes.c -o primes-i.o
 
-error.o: error.c
+error.o: error.c error.h
 	$(CC) $(CFLAGS) -c error.c -o error.o
 
-ppm.o: ppm.c
+ppm.o: ppm.c ppm.h
 	$(CC) $(CFLAGS) -c ppm.c -o ppm.o
-
 
 
 # Executables
@@ -47,7 +57,7 @@ steg-decode: steg-decode.c ppm.o eratosthenes.o bitset.o error.o
 	$(CC) $(CFLAGS) -lm steg-decode.c ppm.o eratosthenes.o bitset.o error.o -o steg-decode
 
 
-
+# Misc
 zip:
 	zip xmatus37-proj1.zip *.h *.c Makefile
 

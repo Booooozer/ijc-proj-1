@@ -1,6 +1,10 @@
-//
-// Created by tom on 3/7/21.
-//
+/*
+ * steg-decode.c
+ * Řešení IJC-DU1
+ * Autor: Tomáš Matuš, FIT
+ * Login: xmatus37
+ * Datum: 15.3.2021
+ */
 
 #include "ppm.h"
 #include "eratosthenes.h"
@@ -25,29 +29,32 @@ int main(int argc, char **argv) {
     bitset_alloc(p,arrSize)
     Eratosthenes(p);
 
-    unsigned char msgByte;
+    unsigned char msgByte = 0;
     int count = 0;
     for (unsigned i = 23; i < arrSize; i++) {
         // index is prime
         if (bitset_getbit(p,i) == 0) {
-
-            //bitset_setbit(msgByte,count,(img->data[i] & 1));
+            // get LSB from image data and put it to index in byte starting from LSB
             msgByte |= ((img->data[i] & 1) << count);
             count++;
+
             // last bit in byte is filled
             if (count == CHAR_BIT) {
                 count = 0;
                 putchar(msgByte);
+                // end of message
                 if (msgByte == '\0') {
                     putchar('\n');
                     break;
+                }
+                // message doesn't end with '\0'
+                if (i == arrSize - 1) {
+                    warning_msg("Skryta zprava je nespravne ukoncena!\n");
                 }
                 msgByte = 0;
             }
         }
     }
-
-
 
     ppm_free(img);
     bitset_free(p)

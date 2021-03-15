@@ -1,6 +1,10 @@
-//
-// Created by tom on 3/1/21.
-//
+/*
+ * bitset.h
+ * Řešení IJC-DU1
+ * Autor: Tomáš Matuš, FIT
+ * Login: xmatus37
+ * Datum: 15.3.2021
+ */
 
 #include "error.h"
 #include <limits.h>
@@ -50,22 +54,22 @@ typedef unsigned long bitset_index_t;
 #define bitset_size(jmeno_pole) (jmeno_pole[0])
 
 // sets selected bit
-/* to set 1: (index where selected bit is + 1 as array[0] == size)
- * then left shift 1 to selected bit and use bitwise OR
- * to set 0: use bitwise AND to set selected bit to 0
+/* ternary operator inside of a ternary operator
+ * first one is used to check if index is out of bounds
+ * second one is used to set bit to 0 or 1
  */
-#define bitset_setbit(jmeno_pole,index,vyraz) (index >= bitset_size(jmeno_pole)) ? \
+#define bitset_setbit(jmeno_pole,index,vyraz) ((index >= bitset_size(jmeno_pole)) ? \
          /* operator "," so this part of ternary operator has something to return (exit before 1 is returned) */   \
         (error_exit("bitset_setbit: Index %lu mimo rozsah 0..%lu\n", index, bitset_size(jmeno_pole))), 1 :  \
         ((vyraz == 1) ?                                                           \
         (jmeno_pole[(index / UL_SIZE) + 1] |= (1UL << ((index) % UL_SIZE))) :   \
-        (jmeno_pole[(index / UL_SIZE) + 1] &= (0UL << ((index) % UL_SIZE))))
+        (jmeno_pole[(index / UL_SIZE) + 1] &= (0UL << ((index) % UL_SIZE)))))
 
 // returns value of bit
-#define bitset_getbit(jmeno_pole,index) (index >= bitset_size(jmeno_pole)) ?                                 \
+#define bitset_getbit(jmeno_pole,index) ((index >= bitset_size(jmeno_pole)) ?                                 \
         /* operator "," so this part of ternary operator has something to return (exit before 1 is returned) */     \
         (error_exit("bitset_getbit: Index %lu mimo rozsah 0..%lu\n", index, bitset_size(jmeno_pole))), 1 : \
-        (jmeno_pole[(index / UL_SIZE) + 1] & (1UL << ((index) % UL_SIZE)))
+        (jmeno_pole[(index / UL_SIZE) + 1] & (1UL << ((index) % UL_SIZE))))
 
 
 #else
