@@ -15,7 +15,7 @@
 
 // allocate struct for ppm image
 struct ppm * ppm_read(const char * filename) {
-    FILE *fp = fopen(filename, "r");
+    FILE *fp = fopen(filename, "rb");
     if(fp == NULL) {
         warning_msg("Chyba otevreni souboru: %s\n", filename);
         return NULL;
